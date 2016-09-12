@@ -20,13 +20,16 @@ public class everything {
                 .reduce(ArrayUtils::addAll)
                 .get();
 
+        double[] stdDevSums = new double[10];
         for (int i = 5; i <= 15; ++i) {
-            ArrayList<Character> charList = new ArrayList<>();
-            for (int j = i; j < encrypted.length; j += i) {
-                charList.add(encrypted[j]);
-            }
+            for (int k = 0; k <= i; ++k) {
+                ArrayList<Character> charList = new ArrayList<>();
+                for (int j = i; j < encrypted.length; j += i) {
+                    charList.add(encrypted[j]);
+                }
 
-            getFrequencies(charList);
+                stdDevSums[i] += getFrequencies(charList);
+            }
         }
     }
 
@@ -36,7 +39,9 @@ public class everything {
 
         for (char alphabetChar: ALPHABET.toCharArray()) {
             for (char encryptedChar: charList) {
-
+                if (alphabetChar == encryptedChar) {
+                    ++frequencies[charNumber];
+                }
             }
             ++charNumber;
         }
