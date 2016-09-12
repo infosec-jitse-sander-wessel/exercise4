@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -20,6 +21,7 @@ public class everything {
                 .reduce(ArrayUtils::addAll)
                 .get();
 
+        StandardDeviation standardDeviation = new StandardDeviation();
         double[] stdDevSums = new double[10];
         for (int i = 5; i <= 15; ++i) {
             for (int k = 0; k <= i; ++k) {
@@ -28,8 +30,13 @@ public class everything {
                     charList.add(encrypted[j]);
                 }
 
-                stdDevSums[i] += getFrequencies(charList);
+                stdDevSums[i] += standardDeviation.evaluate(getFrequencies(charList));
             }
+        }
+
+        int i = 5;
+        for (double stdDevSum : stdDevSums) {
+            System.out.printf("Sum of  %d std. devs: %f\n", i, stdDevSum);
         }
     }
 
@@ -45,5 +52,7 @@ public class everything {
             }
             ++charNumber;
         }
+
+        return frequencies;
     }
 }
